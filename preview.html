@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FemTech Africa - Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(135deg, #F8BBD0 0%, #CE93D8 50%, #90CAF9 100%);
+    min-height: 100vh;
+    color: #4A1942;
+  }
+  h1, h2, h3, h4, h5 { font-family: 'Quicksand', sans-serif; }
+
+  /* Navbar */
+  .navbar {
+    background: linear-gradient(90deg, #CE93D8, #B39DDB, #90CAF9);
+    padding: 0.8rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid #F8BBD0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .navbar-brand { font-weight: 700; font-size: 1.3rem; color: #4A1942; text-decoration: none; }
+  .nav-links { display: flex; gap: 0.5rem; }
+  .nav-links a {
+    color: #4A1942; font-weight: 600; text-decoration: none;
+    padding: 0.5rem 1rem; border-radius: 8px; transition: all 0.2s;
+    font-size: 0.95rem;
+  }
+  .nav-links a:hover, .nav-links a.active { color: white; background-color: rgba(255,255,255,0.25); }
+  .nav-right { color: white; font-size: 0.85rem; opacity: 0.8; }
+
+  /* Container */
+  .container { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
+
+  /* Hero */
+  .hero-section {
+    background: linear-gradient(135deg, #CE93D8, #B39DDB, #90CAF9);
+    border-radius: 20px; padding: 2.5rem; margin-bottom: 1.5rem;
+    color: white; text-align: center;
+  }
+  .hero-section h2 { font-weight: 700; margin-bottom: 0.5rem; font-size: 1.8rem; }
+  .hero-section p { font-size: 1.1rem; opacity: 0.9; }
+
+  /* Stat Cards */
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+  .stat-card {
+    background: white; border-radius: 16px; padding: 1.5rem;
+    text-align: center; box-shadow: 0 4px 15px rgba(179,157,219,0.15);
+    transition: transform 0.2s;
+  }
+  .stat-card:hover { transform: translateY(-5px); }
+  .stat-number {
+    font-size: 2.5rem; font-weight: 700;
+    background: linear-gradient(90deg, #B39DDB, #CE93D8);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .stat-label { color: #4A1942; font-weight: 600; font-size: 0.95rem; margin-top: 0.3rem; }
+
+  /* Cards */
+  .card {
+    border: none; border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(179,157,219,0.2);
+    background: #FFF0F5; overflow: hidden; margin-bottom: 1.5rem;
+  }
+  .card-header {
+    background: linear-gradient(90deg, #B39DDB, #90CAF9);
+    color: white; padding: 0.9rem 1.2rem; font-weight: 600; font-size: 1rem;
+  }
+  .card-body { padding: 1.2rem; }
+
+  /* Charts grid */
+  .charts-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-bottom: 1.5rem; }
+
+  /* Bar chart mock */
+  .bar-chart { display: flex; flex-direction: column; gap: 0.6rem; }
+  .bar-row { display: flex; align-items: center; gap: 0.8rem; }
+  .bar-label { min-width: 160px; text-align: right; font-size: 0.85rem; font-weight: 600; color: #4A1942; }
+  .bar-track { flex: 1; height: 28px; background: #f0e6f6; border-radius: 14px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 14px; display: flex; align-items: center; justify-content: flex-end; padding-right: 10px; color: white; font-weight: 700; font-size: 0.8rem; transition: width 0.8s ease; }
+  .bar-1 { background: linear-gradient(90deg, #F8BBD0, #CE93D8); }
+  .bar-2 { background: linear-gradient(90deg, #CE93D8, #B39DDB); }
+  .bar-3 { background: linear-gradient(90deg, #B39DDB, #90CAF9); }
+  .bar-4 { background: linear-gradient(90deg, #90CAF9, #80DEEA); }
+  .bar-5 { background: linear-gradient(90deg, #80DEEA, #A5D6A7); }
+  .bar-6 { background: linear-gradient(90deg, #A5D6A7, #FFCC80); }
+
+  /* Donut chart mock */
+  .donut-container { display: flex; align-items: center; justify-content: center; gap: 2rem; padding: 1rem 0; }
+  .donut {
+    width: 180px; height: 180px; border-radius: 50%;
+    background: conic-gradient(#B39DDB 0deg 186deg, #90CAF9 186deg 258deg, #F8BBD0 258deg 324deg, #CE93D8 324deg 360deg);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .donut-hole { width: 90px; height: 90px; border-radius: 50%; background: #FFF0F5; }
+  .donut-legend { font-size: 0.85rem; line-height: 2; }
+  .legend-dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+
+  /* Map placeholder */
+  .map-placeholder {
+    background: linear-gradient(135deg, #e8f5e9, #e3f2fd);
+    border-radius: 16px; height: 400px;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 1rem; color: #999; position: relative; overflow: hidden;
+  }
+  .map-placeholder svg { width: 300px; opacity: 0.2; }
+  .map-dot {
+    position: absolute; border-radius: 50%; background: #CE93D8; opacity: 0.7;
+    border: 2px solid #B39DDB; animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100% { transform: scale(1); opacity: 0.7; } 50% { transform: scale(1.15); opacity: 1; } }
+
+  /* Table mock */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .data-table thead th {
+    background: linear-gradient(90deg, #CE93D8, #B39DDB);
+    color: white; padding: 0.7rem 0.8rem; text-align: left; font-weight: 600;
+  }
+  .data-table tbody td { padding: 0.6rem 0.8rem; border-bottom: 1px solid #f0e6f6; }
+  .data-table tbody tr:hover { background: #fce4ec; }
+  .link-btn { color: #B39DDB; text-decoration: none; font-weight: 600; }
+
+  /* Company cards */
+  .company-card {
+    background: white; border-radius: 12px; padding: 1rem; margin-bottom: 0.8rem;
+    border-left: 4px solid #CE93D8; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .company-card h5 { color: #4A1942; margin-bottom: 0.4rem; font-size: 1rem; }
+  .company-card p { font-size: 0.85rem; color: #666; margin-top: 0.4rem; }
+  .badge {
+    display: inline-block; padding: 0.2rem 0.6rem; border-radius: 20px;
+    font-size: 0.75rem; font-weight: 500; color: white; margin-right: 4px;
+  }
+  .badge-country { background-color: #90CAF9; }
+  .badge-category { background-color: #B39DDB; }
+  .badge-funded { background-color: #81C784; }
+
+  /* Filter sidebar */
+  .layout-sidebar { display: grid; grid-template-columns: 280px 1fr; gap: 1.5rem; }
+  .sidebar {
+    background: #FFF0F5; border-radius: 16px; padding: 1.2rem;
+    box-shadow: 0 4px 15px rgba(179,157,219,0.1); height: fit-content; position: sticky; top: 80px;
+  }
+  .sidebar h4 { margin-bottom: 1rem; font-size: 1rem; }
+  .sidebar label { font-size: 0.85rem; font-weight: 600; color: #4A1942; display: block; margin-bottom: 0.3rem; margin-top: 0.8rem; }
+  .sidebar select, .sidebar input {
+    width: 100%; padding: 0.5rem 0.8rem; border-radius: 12px;
+    border: 2px solid #CE93D8; font-family: 'Nunito'; font-size: 0.9rem;
+    outline: none; background: white;
+  }
+  .sidebar select:focus, .sidebar input:focus { border-color: #B39DDB; }
+  .download-btn {
+    display: block; width: 100%; margin-top: 1.2rem; padding: 0.6rem;
+    background: linear-gradient(90deg, #B39DDB, #CE93D8); color: white;
+    border: none; border-radius: 20px; font-weight: 600; cursor: pointer;
+    font-family: 'Nunito'; font-size: 0.9rem;
+  }
+  .download-btn:hover { background: linear-gradient(90deg, #CE93D8, #B39DDB); }
+
+  /* Tab content */
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  footer { text-align: center; padding: 1.5rem; color: #4A1942; font-size: 0.85rem; opacity: 0.7; }
+
+  @media (max-width: 768px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .charts-grid { grid-template-columns: 1fr; }
+    .layout-sidebar { grid-template-columns: 1fr; }
+    .nav-links a { font-size: 0.8rem; padding: 0.4rem 0.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <a href="#" class="navbar-brand">FemTech Africa</a>
+  <div class="nav-links">
+    <a href="#" class="active" onclick="showTab('overview')"><i class="fas fa-home"></i> Overview</a>
+    <a href="#" onclick="showTab('map')"><i class="fas fa-map"></i> Map</a>
+    <a href="#" onclick="showTab('database')"><i class="fas fa-database"></i> Database</a>
+    <a href="#" onclick="showTab('directory')"><i class="fas fa-building"></i> Directory</a>
+    <a href="#" onclick="showTab('about')"><i class="fas fa-info-circle"></i> About</a>
+  </div>
+  <span class="nav-right">Built with R Shiny</span>
+</nav>
+
+<div class="container">
+
+  <!-- ===== OVERVIEW TAB ===== -->
+  <div id="overview" class="tab-content active">
+    <div class="hero-section">
+      <h2>Mapping FemTech Innovation Across Africa</h2>
+      <p>Exploring the startups and solutions transforming women's health on the continent</p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">45</div>
+        <div class="stat-label">Total Startups</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">13</div>
+        <div class="stat-label">Countries</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">29</div>
+        <div class="stat-label">Funded</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">10</div>
+        <div class="stat-label">Categories</div>
+      </div>
+    </div>
+
+    <div class="charts-grid">
+      <div class="card">
+        <div class="card-header"><i class="fas fa-chart-bar"></i> Startups by Region</div>
+        <div class="card-body">
+          <div class="bar-chart">
+            <div class="bar-row"><span class="bar-label">West Africa</span><div class="bar-track"><div class="bar-fill bar-1" style="width:85%">17</div></div></div>
+            <div class="bar-row"><span class="bar-label">East Africa</span><div class="bar-track"><div class="bar-fill bar-2" style="width:65%">13</div></div></div>
+            <div class="bar-row"><span class="bar-label">Southern Africa</span><div class="bar-track"><div class="bar-fill bar-3" style="width:35%">7</div></div></div>
+            <div class="bar-row"><span class="bar-label">North Africa</span><div class="bar-track"><div class="bar-fill bar-4" style="width:20%">4</div></div></div>
+            <div class="bar-row"><span class="bar-label">Central Africa</span><div class="bar-track"><div class="bar-fill bar-5" style="width:10%">2</div></div></div>
+            <div class="bar-row"><span class="bar-label">Multiple</span><div class="bar-track"><div class="bar-fill bar-6" style="width:10%">2</div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><i class="fas fa-tags"></i> Startups by Category</div>
+        <div class="card-body">
+          <div class="bar-chart">
+            <div class="bar-row"><span class="bar-label">Maternal & Repro Health</span><div class="bar-track"><div class="bar-fill bar-1" style="width:85%">19</div></div></div>
+            <div class="bar-row"><span class="bar-label">Telehealth & Digital</span><div class="bar-track"><div class="bar-fill bar-2" style="width:40%">8</div></div></div>
+            <div class="bar-row"><span class="bar-label">Women's Wellness</span><div class="bar-track"><div class="bar-fill bar-3" style="width:20%">4</div></div></div>
+            <div class="bar-row"><span class="bar-label">Sexual & Repro Health</span><div class="bar-track"><div class="bar-fill bar-4" style="width:15%">3</div></div></div>
+            <div class="bar-row"><span class="bar-label">Menstrual & Cycle</span><div class="bar-track"><div class="bar-fill bar-5" style="width:15%">3</div></div></div>
+            <div class="bar-row"><span class="bar-label">Screening & Diagnostics</span><div class="bar-track"><div class="bar-fill bar-6" style="width:10%">2</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="charts-grid">
+      <div class="card">
+        <div class="card-header"><i class="fas fa-coins"></i> Funding Status</div>
+        <div class="card-body">
+          <div class="donut-container">
+            <div class="donut"><div class="donut-hole"></div></div>
+            <div class="donut-legend">
+              <div><span class="legend-dot" style="background:#B39DDB"></span> Funded (22)</div>
+              <div><span class="legend-dot" style="background:#90CAF9"></span> Not Disclosed (9)</div>
+              <div><span class="legend-dot" style="background:#F8BBD0"></span> Grant/Gov (4)</div>
+              <div><span class="legend-dot" style="background:#CE93D8"></span> Acquired (1)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><i class="fas fa-mobile-alt"></i> Platform Types</div>
+        <div class="card-body">
+          <div class="bar-chart">
+            <div class="bar-row"><span class="bar-label">Mobile App</span><div class="bar-track"><div class="bar-fill bar-1" style="width:80%">30</div></div></div>
+            <div class="bar-row"><span class="bar-label">Web</span><div class="bar-track"><div class="bar-fill bar-2" style="width:35%">13</div></div></div>
+            <div class="bar-row"><span class="bar-label">SMS</span><div class="bar-track"><div class="bar-fill bar-3" style="width:25%">9</div></div></div>
+            <div class="bar-row"><span class="bar-label">Telehealth</span><div class="bar-track"><div class="bar-fill bar-4" style="width:18%">6</div></div></div>
+            <div class="bar-row"><span class="bar-label">Medical Device</span><div class="bar-track"><div class="bar-fill bar-5" style="width:8%">3</div></div></div>
+            <div class="bar-row"><span class="bar-label">E-commerce</span><div class="bar-track"><div class="bar-fill bar-6" style="width:5%">2</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MAP TAB ===== -->
+  <div id="map" class="tab-content">
+    <div class="card">
+      <div class="card-header"><i class="fas fa-map-marked-alt"></i> African FemTech Startups Map</div>
+      <div class="card-body" style="padding: 0;">
+        <div class="map-placeholder">
+          <div class="map-dot" style="width:48px;height:48px;top:28%;left:38%;" title="Nigeria (17)"></div>
+          <div class="map-dot" style="width:38px;height:38px;top:48%;left:58%;" title="Kenya (8)"></div>
+          <div class="map-dot" style="width:30px;height:30px;top:72%;left:48%;" title="South Africa (7)"></div>
+          <div class="map-dot" style="width:24px;height:24px;top:32%;left:34%;" title="Ghana (4)"></div>
+          <div class="map-dot" style="width:22px;height:22px;top:38%;left:56%;" title="Ethiopia (2)"></div>
+          <div class="map-dot" style="width:20px;height:20px;top:14%;left:50%;" title="Egypt (3)"></div>
+          <div class="map-dot" style="width:18px;height:18px;top:42%;left:52%;" title="Uganda (2)"></div>
+          <div class="map-dot" style="width:16px;height:16px;top:30%;left:40%;" title="Cameroon (1)"></div>
+          <div class="map-dot" style="width:20px;height:20px;top:50%;left:52%;" title="Rwanda (1)"></div>
+          <div class="map-dot" style="width:18px;height:18px;top:52%;left:56%;" title="Tanzania (1)"></div>
+          <i class="fas fa-globe-africa" style="font-size: 12rem; color: #B39DDB; opacity: 0.1; position: absolute;"></i>
+          <p style="position:absolute; bottom:1rem; font-size:0.9rem; color: #999;">Interactive Leaflet map in live app &mdash; hover dots to see startup details</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DATABASE TAB ===== -->
+  <div id="database" class="tab-content">
+    <div class="layout-sidebar">
+      <div class="sidebar">
+        <h4><i class="fas fa-filter"></i> Filters</h4>
+        <label>Region</label>
+        <select><option>All</option><option>West Africa</option><option>East Africa</option><option>Southern Africa</option><option>North Africa</option><option>Central Africa</option></select>
+        <label>Country</label>
+        <select><option>All</option><option>Nigeria</option><option>Kenya</option><option>South Africa</option><option>Ghana</option><option>Ethiopia</option><option>Egypt</option></select>
+        <label>Category</label>
+        <select><option>All</option><option>Maternal & Reproductive Health</option><option>Telehealth & Digital Health</option><option>Women's Wellness</option><option>Sexual & Reproductive Health</option></select>
+        <label>Funding Status</label>
+        <select><option>All</option><option>Funded</option><option>Not Disclosed</option><option>Grant-funded</option></select>
+        <button class="download-btn"><i class="fas fa-download"></i> Download CSV</button>
+      </div>
+      <div class="card">
+        <div class="card-header"><i class="fas fa-table"></i> FemTech Startups Database</div>
+        <div class="card-body" style="overflow-x:auto;">
+          <table class="data-table">
+            <thead>
+              <tr><th>Name</th><th>Country</th><th>Region</th><th>Category</th><th>Founded</th><th>Funding</th><th>Website</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Babymigo</strong></td><td>Nigeria</td><td>West Africa</td><td>Maternal Health & Pregnancy</td><td>2016</td><td>Funded</td><td><a class="link-btn" href="#">Visit</a></td></tr>
+              <tr><td><strong>HelpMum</strong></td><td>Nigeria</td><td>West Africa</td><td>Maternal Health</td><td>2016</td><td>Funded</td><td><a class="link-btn" href="#">Visit</a></td></tr>
+              <tr><td><strong>Whispa Health</strong></td><td>Nigeria</td><td>West Africa</td><td>Sexual & Reproductive Health</td><td>2019</td><td>Funded</td><td><a class="link-btn" href="#">Visit</a></td></tr>
+              <tr><td><strong>Kasha</strong></td><td>Rwanda / Kenya</td><td>East Africa</td><td>E-commerce & Reproductive Health</td><td>2016</td><td>Funded (Series B)</td><td><a class="link-btn" href="#">Visit</a></td></tr>
+              <tr><td><strong>YeneHealth</strong></td><td>Ethiopia</td><td>East Africa</td><td>Period Tracking & Reproductive Health</td><td>2021</td><td>Funded</td><td><a class="link-btn" href="#">Visit</a></td></tr>
+              <tr><td><strong>Malaica</strong></td><td>Kenya</td><td>East Africa</td><td>Maternal Health</td><td>2015</td><td>Funded</td><td><a class="link-btn" href="#">Visit</a></td></tr>
+              <tr><td><strong>Zoie Health</strong></td><td>South Africa</td><td>Southern Africa</td><td>Women's Health & Virtual Care</td><td>2021</td><td>Funded (Pre-seed)</td><td><a class="link-btn" href="#">Visit</a></td></tr>
+              <tr><td><strong>GiftedMom</strong></td><td>Cameroon</td><td>Central Africa</td><td>Maternal Health</td><td>2013</td><td>Funded</td><td><a class="link-btn" href="#">Visit</a></td></tr>
+              <tr><td><strong>Uteroo</strong></td><td>South Africa</td><td>Southern Africa</td><td>Menstrual Health</td><td>2018</td><td>Not Disclosed</td><td><a class="link-btn" href="#">Visit</a></td></tr>
+              <tr><td><strong>DilenyTech</strong></td><td>Egypt</td><td>North Africa</td><td>Breast Cancer Screening</td><td>2018</td><td>Funded</td><td><a class="link-btn" href="#">Visit</a></td></tr>
+            </tbody>
+          </table>
+          <p style="text-align:center; padding:1rem; color:#999; font-size:0.85rem;">Showing 10 of 45 entries &mdash; full interactive table in live app</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DIRECTORY TAB ===== -->
+  <div id="directory" class="tab-content">
+    <div class="layout-sidebar">
+      <div class="sidebar">
+        <h4><i class="fas fa-search"></i> Search</h4>
+        <label>Search by Name</label>
+        <input type="text" placeholder="e.g. Babymigo">
+        <label>Filter by Region</label>
+        <select><option>All</option><option>West Africa</option><option>East Africa</option><option>Southern Africa</option></select>
+        <label>Filter by Category</label>
+        <select><option>All</option><option>Maternal & Reproductive Health</option><option>Telehealth & Digital Health</option></select>
+      </div>
+      <div>
+        <p style="color: #999; font-size: 0.9rem; margin-bottom: 1rem;">Showing 45 startup(s)</p>
+        <div class="company-card">
+          <div style="flex:1">
+            <h5>Babymigo</h5>
+            <span class="badge badge-country">Nigeria</span>
+            <span class="badge badge-category">Maternal Health & Pregnancy</span>
+            <span class="badge badge-funded">Funded</span>
+            <p>Connects expectant mothers with healthcare professionals; provides expert-verified health information on pregnancy, parenting and childbirth via SMS, app and web. Over 200,000 users.</p>
+            <small style="color:#999">Founded: 2016</small>
+          </div>
+          <a href="#" class="link-btn" style="white-space:nowrap"><i class="fas fa-external-link-alt"></i> Website</a>
+        </div>
+        <div class="company-card">
+          <div style="flex:1">
+            <h5>Kasha</h5>
+            <span class="badge badge-country">Rwanda / Kenya</span>
+            <span class="badge badge-category">E-commerce & Reproductive Health</span>
+            <span class="badge badge-funded">Funded (Series B - $21M)</span>
+            <p>E-commerce platform enabling women to buy health and personal care products with confidential delivery. Over 20,000 customers. Phone consultations on fertility and sexual health.</p>
+            <small style="color:#999">Founded: 2016</small>
+          </div>
+          <a href="#" class="link-btn" style="white-space:nowrap"><i class="fas fa-external-link-alt"></i> Website</a>
+        </div>
+        <div class="company-card">
+          <div style="flex:1">
+            <h5>YeneHealth</h5>
+            <span class="badge badge-country">Ethiopia</span>
+            <span class="badge badge-category">Period Tracking & Reproductive Health</span>
+            <span class="badge badge-funded">Funded</span>
+            <p>Ethiopia's first femtech startup combining AI, data analytics and culturally sensitive design. Period and pregnancy tracking app with e-pharmacy and virtual consultations.</p>
+            <small style="color:#999">Founded: 2021</small>
+          </div>
+          <a href="#" class="link-btn" style="white-space:nowrap"><i class="fas fa-external-link-alt"></i> Website</a>
+        </div>
+        <div class="company-card">
+          <div style="flex:1">
+            <h5>Zoie Health</h5>
+            <span class="badge badge-country">South Africa</span>
+            <span class="badge badge-category">Women's Health & Virtual Care</span>
+            <span class="badge badge-funded">Funded (Pre-seed)</span>
+            <p>Digital app for family planning, fertility and maternity care. Virtual consultations with doulas, nurses, midwives, GPs and mental health professionals.</p>
+            <small style="color:#999">Founded: 2021</small>
+          </div>
+          <a href="#" class="link-btn" style="white-space:nowrap"><i class="fas fa-external-link-alt"></i> Website</a>
+        </div>
+        <div class="company-card">
+          <div style="flex:1">
+            <h5>DilenyTech</h5>
+            <span class="badge badge-country">Egypt</span>
+            <span class="badge badge-category">Breast Cancer Screening</span>
+            <span class="badge badge-funded">Funded</span>
+            <p>AI-powered breast cancer screening and imaging solutions facilitating early and accurate detection.</p>
+            <small style="color:#999">Founded: 2018</small>
+          </div>
+          <a href="#" class="link-btn" style="white-space:nowrap"><i class="fas fa-external-link-alt"></i> Website</a>
+        </div>
+        <p style="text-align:center; color:#999; font-size:0.85rem; padding:1rem;">... and 40 more startup cards in the live app</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ABOUT TAB ===== -->
+  <div id="about" class="tab-content">
+    <div class="charts-grid">
+      <div class="card">
+        <div class="card-header"><i class="fas fa-info-circle"></i> About This Project</div>
+        <div class="card-body">
+          <h4>FemTech Africa Database</h4>
+          <p style="margin:0.8rem 0">This interactive dashboard maps the growing ecosystem of female-focused health technology (FemTech) startups across Africa.</p>
+          <p style="margin:0.8rem 0">FemTech encompasses technology solutions tailored to women's health needs including maternal care, reproductive health, menstrual health, fertility, breast cancer screening, and general women's wellness.</p>
+          <h5 style="margin-top:1.2rem">Key Findings</h5>
+          <ul style="margin:0.5rem 0 0 1.5rem; line-height: 1.8;">
+            <li>Africa has a rapidly growing femtech ecosystem with startups across all regions</li>
+            <li>West Africa (particularly Nigeria) and East Africa (particularly Kenya) lead in innovation</li>
+            <li>~81% of funded African femtech startups focus on fertility and maternal health</li>
+            <li>Significant gaps remain in menopause, pelvic health, and endometriosis solutions</li>
+            <li>Mobile and SMS-based platforms dominate, reflecting Africa's mobile-first landscape</li>
+          </ul>
+          <p style="margin-top:1rem; font-style:italic; color:#999">Last updated: April 2026</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><i class="fas fa-hands-helping"></i> Get Involved</div>
+        <div class="card-body">
+          <h5>Know a startup we missed?</h5>
+          <p style="margin:0.5rem 0">The African femtech ecosystem is growing rapidly. If you know of a startup that should be included in this database, please reach out.</p>
+          <h5 style="margin-top:1.5rem">Resources</h5>
+          <ul style="margin:0.5rem 0 0 1.5rem; line-height: 2;">
+            <li><a class="link-btn" href="#">FemHealth Africa</a></li>
+            <li><a class="link-btn" href="#">Jaza Rift - Mapping FemTech in Africa</a></li>
+            <li><a class="link-btn" href="#">HealthTech Hub Africa</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>FemTech Africa Database &copy; 2026</footer>
+
+<script>
+function showTab(tabId) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  event.target.closest('a').classList.add('active');
+}
+</script>
+</body>
+</html>
